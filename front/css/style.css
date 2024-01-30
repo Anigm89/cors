@@ -1,0 +1,38 @@
+h1,h2,p,a, label, input {font-family: math;text-align: center;}
+h1{color: lightseagreen;}
+
+label{margin-left: 1.5%;}
+.info{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin: 1%;
+    background: #20b2aa47;
+}
+.card{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 1% ;
+    background-color: #fff;
+}
+
+img{border-radius: 5px;}
+button{
+    border-radius: 5px;
+    color: #fff;
+    background-color: lightseagreen;
+    border: none;
+    cursor: pointer;
+    padding: 4px 10px;
+}
+span{
+    font-style: italic;
+    color: #a9a4a4;
+}
+
+.card:hover{
+    scale: 1.1;
+}
