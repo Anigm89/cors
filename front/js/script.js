@@ -1,5 +1,5 @@
 function buscarPersonaje(){  
- const input = document.getElementById('nombre');
+    const input = document.getElementById('nombre');
     const info = document.getElementById('info');
 
     const nombre = input.value.toLowerCase();
@@ -7,25 +7,29 @@ function buscarPersonaje(){
     fetch(`http://localhost:3000/characters/${nombre}`)
     .then(response => response.json())
     .then(data =>{
-    //const {name, status, species, gender, origin, image } = data;
-    const personajes = data;
-    info.innerHTML = '';
-    personajes.forEach(personaje => {
-
-        
-        info.innerHTML += `
-        <div class="card">
-            <h2> ${personaje.name} </h2>
-            <img src ="${personaje.image} " alt="${personaje.name} ">
-            <p>Status: <span>${personaje.status}</span> </p>
-            <p>Species: <span>${personaje.species} </span></p>
-            <p>Gender: <span>${personaje.gender} </span></p>
-            <p>Origin: <span>${personaje.origin.name} </span></p>
+        info.innerHTML = '';
+        if(data){
+            data.map(personaje => {
+                const {name, status, species, gender, origin, image } = personaje;
             
-        </div>
-        `
-        })
+                    info.innerHTML += `
+                    <div class="card">
+                        <h2> ${name} </h2>
+                        <img src ="${image} " alt="${name} ">
+                        <p>Status: <span>${status}</span> </p>
+                        <p>Species: <span>${species} </span></p>
+                        <p>Gender: <span>${gender} </span></p>
+                        <p>Origin: <span>${origin.name} </span></p>
+                        
+                    </div>
+                    `
+                })
+            }
+            else{
+                info.innerHTML = 'No se ha encontrado el personaje'
+            }
     })
     .catch(error => info.innerHTML = 'no se ha podido obtener la información')
 
 }
+

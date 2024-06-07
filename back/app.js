@@ -5,12 +5,17 @@ const app = express();
 
 app.use(cors());
 
+app.get('/', (req, res) =>{
+    res.json({mensaje: 'hola'})
+})
+
 app.get('/characters', async (req, res ) =>{
     const url = 'https://rickandmortyapi.com/api/character'
     try{
         const response = await axios.get(url);
         const personajes = response.data.results;
       
+        //res.json(personajes)  ->  devuelve datos json y  lo de abajo no es necesario
         const listado = personajes.map(personaje => `<li> ${personaje.name}</li>`).join('');
 
         res.send(
@@ -20,7 +25,8 @@ app.get('/characters', async (req, res ) =>{
         ) 
     }
     catch(error){
-        res.status(404).json({error: 'Personaje no encontrado'})
+        res.status(500).json({error: 'Error al acceder al personaje'})
+
     }
 })
 
@@ -31,7 +37,17 @@ app.get('/characters/:name', async (req, res) => {
     const urlName = `https://rickandmortyapi.com/api/character/?name=${nombre}`;
     try{
         const response = await axios.get(urlName);
-      
+        const personajes = response.data.results;
+
+        if(personajes){
+            res.json(personajes)
+        }
+        else{
+            res.status(404).json({error: 'Personaje no encontrado'})
+
+        }
+
+      /* otra forma:
         let {results} = response.data;
         const personajes = results.map((personaje) => {
         let { name, status, species, gender, origin, image } = personaje;
@@ -39,11 +55,13 @@ app.get('/characters/:name', async (req, res) => {
             return { name, status, species, gender, origin, image };
            
         });
+        
         res.json(personajes) 
+        */
     
     }
     catch (error){
-        res.status(404).json({error: 'Personaje no encontrado'})
+        res.status(500).json({error: 'No ha podido acceder al servidor. Personaje no encontrado'})
     }
 })
 
